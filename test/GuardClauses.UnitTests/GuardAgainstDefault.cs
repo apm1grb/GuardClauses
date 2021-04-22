@@ -27,6 +27,45 @@ namespace GuardClauses.UnitTests
             Assert.Throws<ArgumentException>("object", () => Guard.Against.Default(default(object), "object"));
         }
 
+        [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenDefaultValueString()
+        {
+            var exception = Assert.Throws<ArgumentException>("string",
+                () => Guard.Against.Default(default(string), "string", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
+        [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenDefaultValueInt()
+        {
+
+            var exception = Assert.Throws<ArgumentException>("int",
+                () => Guard.Against.Default(default(int), "int", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
+        [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenDefaultValueGuid()
+        {
+            var exception = Assert.Throws<ArgumentException>("guid",
+                () => Guard.Against.Default(default(Guid), "guid", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
+        [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenDefaultValueDateTime()
+        {
+            var exception = Assert.Throws<ArgumentException>("datetime",
+                () => Guard.Against.Default(default(DateTime), "datetime", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+        [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenDefaultValueObject()
+        {
+            var exception = Assert.Throws<ArgumentException>("object", () => Guard.Against.Default(default(object), "object", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
         [Theory]
         [MemberData(nameof(GetNonDefaultTestVectors))]
         public void ReturnsExpectedValueWhenGivenNonDefaultValue(object input, string name, object expected)
