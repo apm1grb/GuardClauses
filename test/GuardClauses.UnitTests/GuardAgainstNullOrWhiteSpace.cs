@@ -25,9 +25,25 @@ namespace GuardClauses.UnitTests
         }
 
         [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenNullValue()
+        {
+            var exception = Assert.Throws<ArgumentNullException>(() =>
+                Guard.Against.NullOrWhiteSpace(null, "null", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
+        [Fact]
         public void ThrowsGivenEmptyString()
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.NullOrWhiteSpace("", "emptystring"));
+        }
+
+        [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenEmptyString()
+        {
+            var exception = Assert.Throws<ArgumentException>(() =>
+                Guard.Against.NullOrWhiteSpace("", "emptystring", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Theory]
@@ -35,7 +51,18 @@ namespace GuardClauses.UnitTests
         [InlineData("   ")]
         public void ThrowsGivenWhiteSpaceString(string whiteSpaceString)
         {
-            Assert.Throws<ArgumentException>(() => Guard.Against.NullOrWhiteSpace(whiteSpaceString, "whitespacestring"));
+            Assert.Throws<ArgumentException>(() =>
+                Guard.Against.NullOrWhiteSpace(whiteSpaceString, "whitespacestring"));
+        }
+
+        [Theory]
+        [InlineData(" ")]
+        [InlineData("   ")]
+        public void ThrowsSelfOwnErrorMessageGivenWhiteSpaceString(string whiteSpaceString)
+        {
+            var exception = Assert.Throws<ArgumentException>(() =>
+                Guard.Against.NullOrWhiteSpace(whiteSpaceString, "whitespacestring", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Theory]
@@ -49,5 +76,6 @@ namespace GuardClauses.UnitTests
             Assert.Equal(expected, Guard.Against.NullOrWhiteSpace(nonEmptyString, "string"));
             Assert.Equal(expected, Guard.Against.NullOrWhiteSpace(nonEmptyString, "aNumericString"));
         }
+
     }
 }

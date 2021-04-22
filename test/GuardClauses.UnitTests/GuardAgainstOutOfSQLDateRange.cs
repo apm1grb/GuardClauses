@@ -23,6 +23,21 @@ namespace GuardClauses.UnitTests
             Assert.Throws<ArgumentOutOfRangeException>(() => Guard.Against.OutOfSQLDateRange(date, nameof(date)));
         }
 
+        [Theory]
+        [InlineData(1)]
+        [InlineData(60)]
+        [InlineData(60 * 60)]
+        [InlineData(60 * 60 * 24)]
+        [InlineData(60 * 60 * 24 * 30)]
+        [InlineData(60 * 60 * 24 * 30 * 365)]
+        public void ThrowsSelfOwnErrorMessageGivenValueBelowMinDate(int offsetInSeconds)
+        {
+            DateTime date = SqlDateTime.MinValue.Value.AddSeconds(-offsetInSeconds);
+
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Guard.Against.OutOfSQLDateRange(date, nameof(date), "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
         [Fact]
         public void DoNothingGivenCurrentDate()
         {

@@ -7,12 +7,12 @@ namespace GuardClauses.UnitTests
     public class GuardAgainstInvalidFormatTests
     {
         [Theory]
-        [InlineData("12345",@"\d{1,6}")]
+        [InlineData("12345", @"\d{1,6}")]
         [InlineData("50FA", @"[0-9a-fA-F]{1,6}")]
         [InlineData("abfACD", @"[a-fA-F]{1,8}")]
-        [InlineData("DHSTRY",@"[A-Z]+")]
+        [InlineData("DHSTRY", @"[A-Z]+")]
         [InlineData("3498792", @"\d+")]
-        public void ReturnsExpectedValueGivenCorrectFormat(string input,string regexPattern)
+        public void ReturnsExpectedValueGivenCorrectFormat(string input, string regexPattern)
         {
             var result = Guard.Against.InvalidFormat(input, nameof(input), regexPattern);
             Assert.Equal(input, result);
@@ -27,6 +27,18 @@ namespace GuardClauses.UnitTests
         public void ThrowsGivenGivenIncorrectFormat(string input, string regexPattern)
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.InvalidFormat(input, nameof(input), regexPattern));
+        }
+
+        [Theory]
+        [InlineData("aaa", @"\d{1,6}")]
+        [InlineData("50XA", @"[0-9a-fA-F]{1,6}")]
+        [InlineData("2GudhUtG", @"[a-fA-F]+")]
+        [InlineData("sDHSTRY", @"[A-Z]+")]
+        [InlineData("3F498792", @"\d+")]
+        public void ThrowsSelfOwnErrorMessageGivenGivenIncorrectFormat(string input, string regexPattern)
+        {
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.InvalidFormat(input, nameof(input), regexPattern, "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
     }

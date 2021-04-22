@@ -34,6 +34,20 @@ namespace GuardClauses.UnitTests
         }
 
         [Theory]
+        [InlineData(-1, 1, 3)]
+        [InlineData(0, 1, 3)]
+        [InlineData(4, 1, 3)]
+        public void ThrowsSelfOwnErrorMessageGivenOutOfRangeValue(int input, int rangeFrom, int rangeTo)
+        {
+            var inputTimeSpan = TimeSpan.FromSeconds(input);
+            var rangeFromTimeSpan = TimeSpan.FromSeconds(rangeFrom);
+            var rangeToTimeSpan = TimeSpan.FromSeconds(rangeTo);
+
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Guard.Against.OutOfRange(inputTimeSpan, "index", rangeFromTimeSpan, rangeToTimeSpan, "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
+        [Theory]
         [InlineData(-1, 3, 1)]
         [InlineData(0, 3, 1)]
         [InlineData(4, 3, 1)]
@@ -44,6 +58,20 @@ namespace GuardClauses.UnitTests
             var rangeToTimeSpan = TimeSpan.FromSeconds(rangeTo);
 
             Assert.Throws<ArgumentException>(() => Guard.Against.OutOfRange(inputTimeSpan, "index", rangeFromTimeSpan, rangeToTimeSpan));
+        }
+
+        [Theory]
+        [InlineData(-1, 3, 1)]
+        [InlineData(0, 3, 1)]
+        [InlineData(4, 3, 1)]
+        public void ThrowsSelfOwnErrorMessageGivenInvalidArgumentValue(int input, int rangeFrom, int rangeTo)
+        {
+            var inputTimeSpan = TimeSpan.FromSeconds(input);
+            var rangeFromTimeSpan = TimeSpan.FromSeconds(rangeFrom);
+            var rangeToTimeSpan = TimeSpan.FromSeconds(rangeTo);
+
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.OutOfRange(inputTimeSpan, "index", rangeFromTimeSpan, rangeToTimeSpan, "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Theory]

@@ -1,4 +1,4 @@
-using Ardalis.GuardClauses;
+﻿using Ardalis.GuardClauses;
 using System;
 using System.Linq;
 using Xunit;
@@ -35,9 +35,24 @@ namespace GuardClauses.UnitTests
         }
 
         [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenNullString()
+        {
+            string? nullString = null;
+            var exception = Assert.Throws<ArgumentNullException>(() => Guard.Against.NullOrEmpty(nullString, "nullString", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
+        [Fact]
         public void ThrowsGivenEmptyString()
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.NullOrEmpty("", "emptyString"));
+        }
+
+        [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenEmptyString()
+        {
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.NullOrEmpty("", "emptyString", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Fact]
@@ -48,15 +63,37 @@ namespace GuardClauses.UnitTests
         }
 
         [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenNullGuid()
+        {
+            Guid? nullGuid = null;
+            var exception = Assert.Throws<ArgumentNullException>(() => Guard.Against.NullOrEmpty(nullGuid, "nullGuid", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
+        [Fact]
         public void ThrowsGivenEmptyGuid()
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.NullOrEmpty(Guid.Empty, "emptyGuid"));
         }
 
         [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenEmptyGuid()
+        {
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.NullOrEmpty(Guid.Empty, "emptyGuid", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
+        [Fact]
         public void ThrowsGivenEmptyEnumerable()
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.NullOrEmpty(Enumerable.Empty<string>(), "emptyStringEnumerable"));
+        }
+
+        [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenEmptyEnumerable()
+        {
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.NullOrEmpty(Enumerable.Empty<string>(), "emptyStringEnumerable", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Fact]
@@ -71,5 +108,6 @@ namespace GuardClauses.UnitTests
             var collection2 = new[] {1, 2};
             Assert.Equal(collection2, Guard.Against.NullOrEmpty(collection2, "intArray"));
         }
+
     }
 }

@@ -1,4 +1,4 @@
-using Ardalis.GuardClauses;
+﻿using Ardalis.GuardClauses;
 using System;
 using Xunit;
 
@@ -21,6 +21,14 @@ namespace GuardClauses.UnitTests
         {
             object obj = null!;
             Assert.Throws<ArgumentNullException>(() => Guard.Against.Null(obj, "null"));
+        }
+
+        [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenNullValue()
+        {
+            object obj = null!;
+            var exception = Assert.Throws<ArgumentNullException>(() => Guard.Against.Null(obj, "null", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Fact]
