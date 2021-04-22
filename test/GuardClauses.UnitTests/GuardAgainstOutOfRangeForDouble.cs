@@ -31,8 +31,8 @@ namespace GuardClauses.UnitTests
         [InlineData(4.0, 1.0, 3.0)]
         public void ThrowsSelfOwnErrorMessageGivenOutOfRangeValue(double input, double rangeFrom, double rangeTo)
         {
-            var ex = Assert.Throws<ArgumentOutOfRangeException>(() => Guard.Against.OutOfRange(input, "index", rangeFrom, rangeTo, "selfOwnErrorMessage"));
-            Assert.Contains("selfOwnErrorMessage", ex.Message);
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Guard.Against.OutOfRange(input, "index", rangeFrom, rangeTo, "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Theory]
