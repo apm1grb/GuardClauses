@@ -28,6 +28,15 @@ namespace GuardClauses.UnitTests
             var exception = Assert.Throws<InvalidEnumArgumentException>(() => Guard.Against.OutOfRange<TestEnum>(enumValue, nameof(enumValue)));
             Assert.Equal(nameof(enumValue), exception.ParamName);
         }
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(6)]
+        [InlineData(10)]
+        public void ThrowsSelfOwnErrorMessageGivenOutOfRangeValue(int enumValue)
+        {
+           var exception = Assert.Throws<InvalidEnumArgumentException>(() => Guard.Against.OutOfRange<TestEnum>(enumValue, nameof(enumValue), "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
 
         [Theory]
         [InlineData(TestEnum.Budgie)]
@@ -50,6 +59,16 @@ namespace GuardClauses.UnitTests
         {
             var exception = Assert.Throws<InvalidEnumArgumentException>(() => Guard.Against.OutOfRange(enumValue, nameof(enumValue)));
             Assert.Equal(nameof(enumValue), exception.ParamName);
+        }
+
+        [Theory]
+        [InlineData((TestEnum)(-1))]
+        [InlineData((TestEnum)6)]
+        [InlineData((TestEnum)10)]
+        public void ThrowsSelfOwnErrorMessageGivenOutOfRangeEnum(TestEnum enumValue)
+        {
+            var exception = Assert.Throws<InvalidEnumArgumentException>(() => Guard.Against.OutOfRange(enumValue, nameof(enumValue), "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Theory]
