@@ -16,7 +16,7 @@ namespace GuardClauses.UnitTests
             Guard.Against.Negative(0.0, "doubleZero");
             Guard.Against.Negative(TimeSpan.Zero, "timespanZero");
         }
-        
+
         [Fact]
         public void DoesNothingGivenPositiveValue()
         {
@@ -27,11 +27,18 @@ namespace GuardClauses.UnitTests
             Guard.Against.Negative(1.0, "doubleZero");
             Guard.Against.Negative(TimeSpan.FromSeconds(1), "timespanZero");
         }
-        
+
         [Fact]
         public void ThrowsGivenNegativeIntValue()
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.Negative(-1, "negative"));
+        }
+
+        [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenNegativeIntValue()
+        {
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.Negative(-1, "negative", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Fact]
@@ -41,9 +48,23 @@ namespace GuardClauses.UnitTests
         }
 
         [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenNegativeLongValue()
+        {
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.Negative(-1L, "negative", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
+        [Fact]
         public void ThrowsGivenNegativeDecimalValue()
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.Negative(-1.0M, "negative"));
+        }
+
+        [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenNegativeDecimalValue()
+        {
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.Negative(-1.0M, "negative", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Fact]
@@ -53,15 +74,37 @@ namespace GuardClauses.UnitTests
         }
 
         [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenNegativeFloatValue()
+        {
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.Negative(-1.0f, "negative", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
+        [Fact]
         public void ThrowsGivenNegativeDoubleValue()
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.Negative(-1.0, "negative"));
         }
 
         [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenNegativeDoubleValue()
+        {
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.Negative(-1.0, "negative", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
+        [Fact]
         public void ThrowsGivenNegativeTimeSpanValue()
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.Negative(TimeSpan.FromSeconds(-1), "negative"));
+        }
+
+        [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenNegativeTimeSpanValue()
+        {
+
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.Negative(TimeSpan.FromSeconds(-1), "negative", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Fact]
