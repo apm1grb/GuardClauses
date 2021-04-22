@@ -26,12 +26,31 @@ namespace GuardClauses.UnitTests
         }
 
         [Theory]
+        [InlineData(-1.0, 1.0, 3.0)]
+        [InlineData(0.0, 1.0, 3.0)]
+        [InlineData(4.0, 1.0, 3.0)]
+        public void ThrowsSelfOwnErrorMessageGivenOutOfRangeValue(decimal input, decimal rangeFrom, decimal rangeTo)
+        {
+            var ex = Assert.Throws<ArgumentOutOfRangeException>(() => Guard.Against.OutOfRange(input, "index", rangeFrom, rangeTo, "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", ex.Message);
+        }
+        [Theory]
         [InlineData(-1.0, 3.0, 1.0)]
         [InlineData(0.0, 3.0, 1.0)]
         [InlineData(4.0, 3.0, 1.0)]
         public void ThrowsGivenInvalidArgumentValue(decimal input, decimal rangeFrom, decimal rangeTo)
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.OutOfRange(input, "index", rangeFrom, rangeTo));
+        }
+
+        [Theory]
+        [InlineData(-1.0, 3.0, 1.0)]
+        [InlineData(0.0, 3.0, 1.0)]
+        [InlineData(4.0, 3.0, 1.0)]
+        public void ThrowsSelfOwnErrorMessageGivenInvalidArgumentValue(decimal input, decimal rangeFrom, decimal rangeTo)
+        {
+            var ex = Assert.Throws<ArgumentException>(() => Guard.Against.OutOfRange(input, "index", rangeFrom, rangeTo, "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", ex.Message);
         }
 
         [Theory]
