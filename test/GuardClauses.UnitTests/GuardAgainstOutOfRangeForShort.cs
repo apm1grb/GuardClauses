@@ -26,12 +26,32 @@ namespace GuardClauses.UnitTests
         }
 
         [Theory]
+        [InlineData(-1, 1, 3)]
+        [InlineData(0, 1, 3)]
+        [InlineData(4, 1, 3)]
+        public void ThrowsSelfOwnErrorMessageGivenOutOfRangeValue(short input, short rangeFrom, short rangeTo)
+        {
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Guard.Against.OutOfRange(input, "index", rangeFrom, rangeTo, "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
+        [Theory]
         [InlineData(-1, 3, 1)]
         [InlineData(0, 3, 1)]
         [InlineData(4, 3, 1)]
         public void ThrowsGivenInvalidArgumentValue(short input, short rangeFrom, short rangeTo)
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.OutOfRange(input, "index", rangeFrom, rangeTo));
+        }
+
+        [Theory]
+        [InlineData(-1, 3, 1)]
+        [InlineData(0, 3, 1)]
+        [InlineData(4, 3, 1)]
+        public void ThrowsSelfOwnErrorMessageGivenInvalidArgumentValue(short input, short rangeFrom, short rangeTo)
+        {
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.OutOfRange(input, "index", rangeFrom, rangeTo, "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Theory]
