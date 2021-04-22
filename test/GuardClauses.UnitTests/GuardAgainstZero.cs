@@ -28,6 +28,7 @@ namespace GuardClauses.UnitTests
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.Zero(0, "zero"));
         }
+
         [Fact]
         public void ThrowsSelfOwnErrorMessageGivenZeroValueIntZero()
         {

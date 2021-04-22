@@ -27,9 +27,9 @@ namespace GuardClauses.UnitTests
         [Fact]
         public void ThrowsSelfOwnErrorMessageGivenNullValue()
         {
-            var ex = Assert.Throws<ArgumentNullException>(() =>
+            var exception = Assert.Throws<ArgumentNullException>(() =>
                 Guard.Against.NullOrWhiteSpace(null, "null", "selfOwnErrorMessage"));
-            Assert.Contains("selfOwnErrorMessage", ex.Message);
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Fact]
@@ -41,9 +41,9 @@ namespace GuardClauses.UnitTests
         [Fact]
         public void ThrowsSelfOwnErrorMessageGivenEmptyString()
         {
-            var ex = Assert.Throws<ArgumentException>(() =>
+            var exception = Assert.Throws<ArgumentException>(() =>
                 Guard.Against.NullOrWhiteSpace("", "emptystring", "selfOwnErrorMessage"));
-            Assert.Contains("selfOwnErrorMessage", ex.Message);
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Theory]
@@ -60,9 +60,9 @@ namespace GuardClauses.UnitTests
         [InlineData("   ")]
         public void ThrowsSelfOwnErrorMessageGivenWhiteSpaceString(string whiteSpaceString)
         {
-            var ex = Assert.Throws<ArgumentException>(() =>
+            var exception = Assert.Throws<ArgumentException>(() =>
                 Guard.Against.NullOrWhiteSpace(whiteSpaceString, "whitespacestring", "selfOwnErrorMessage"));
-            Assert.Contains("selfOwnErrorMessage", ex.Message);
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Theory]
