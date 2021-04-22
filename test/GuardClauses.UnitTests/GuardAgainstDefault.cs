@@ -59,6 +59,7 @@ namespace GuardClauses.UnitTests
                 () => Guard.Against.Default(default(DateTime), "datetime", "selfOwnErrorMessage"));
             Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
+
         [Fact]
         public void ThrowsSelfOwnErrorMessageGivenDefaultValueObject()
         {

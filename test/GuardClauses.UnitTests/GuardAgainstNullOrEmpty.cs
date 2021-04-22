@@ -35,15 +35,24 @@ namespace GuardClauses.UnitTests
         }
 
         [Fact]
+        public void ThrowsSelfOwnErrorMessageGivenNullString()
+        {
+            string? nullString = null;
+            var exception = Assert.Throws<ArgumentNullException>(() => Guard.Against.NullOrEmpty(nullString, "nullString", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
+        [Fact]
         public void ThrowsGivenEmptyString()
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.NullOrEmpty("", "emptyString"));
         }
+
         [Fact]
         public void ThrowsSelfOwnErrorMessageGivenEmptyString()
         {
-            var ex = Assert.Throws<ArgumentException>(() => Guard.Against.NullOrEmpty("", "emptyString", "selfOwnErrorMessage"));
-            Assert.Contains("selfOwnErrorMessage", ex.Message);
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.NullOrEmpty("", "emptyString", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Fact]
@@ -52,12 +61,13 @@ namespace GuardClauses.UnitTests
             Guid? nullGuid = null;
             Assert.Throws<ArgumentNullException>(() => Guard.Against.NullOrEmpty(nullGuid, "nullGuid"));
         }
+
         [Fact]
         public void ThrowsSelfOwnErrorMessageGivenNullGuid()
         {
             Guid? nullGuid = null;
-            var ex = Assert.Throws<ArgumentNullException>(() => Guard.Against.NullOrEmpty(nullGuid, "nullGuid", "selfOwnErrorMessage"));
-            Assert.Contains("selfOwnErrorMessage", ex.Message);
+            var exception = Assert.Throws<ArgumentNullException>(() => Guard.Against.NullOrEmpty(nullGuid, "nullGuid", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Fact]
@@ -65,11 +75,12 @@ namespace GuardClauses.UnitTests
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.NullOrEmpty(Guid.Empty, "emptyGuid"));
         }
+
         [Fact]
         public void ThrowsSelfOwnErrorMessageGivenEmptyGuid()
         {
-            var ex = Assert.Throws<ArgumentException>(() => Guard.Against.NullOrEmpty(Guid.Empty, "emptyGuid", "selfOwnErrorMessage"));
-            Assert.Contains("selfOwnErrorMessage", ex.Message);
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.NullOrEmpty(Guid.Empty, "emptyGuid", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Fact]
@@ -77,11 +88,12 @@ namespace GuardClauses.UnitTests
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.NullOrEmpty(Enumerable.Empty<string>(), "emptyStringEnumerable"));
         }
+
         [Fact]
         public void ThrowsSelfOwnErrorMessageGivenEmptyEnumerable()
         {
-            var ex = Assert.Throws<ArgumentException>(() => Guard.Against.NullOrEmpty(Enumerable.Empty<string>(), "emptyStringEnumerable", "selfOwnErrorMessage"));
-            Assert.Contains("selfOwnErrorMessage", ex.Message);
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.NullOrEmpty(Enumerable.Empty<string>(), "emptyStringEnumerable", "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Fact]

@@ -22,6 +22,7 @@ namespace GuardClauses.UnitTests
             object obj = null!;
             Assert.Throws<ArgumentNullException>(() => Guard.Against.Null(obj, "null"));
         }
+
         [Fact]
         public void ThrowsSelfOwnErrorMessageGivenNullValue()
         {

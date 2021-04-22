@@ -28,6 +28,7 @@ namespace GuardClauses.UnitTests
             var exception = Assert.Throws<InvalidEnumArgumentException>(() => Guard.Against.OutOfRange<TestEnum>(enumValue, nameof(enumValue)));
             Assert.Equal(nameof(enumValue), exception.ParamName);
         }
+
         [Theory]
         [InlineData(-1)]
         [InlineData(6)]
