@@ -24,6 +24,14 @@ namespace GuardClauses.UnitTests
         }
 
         [Theory]
+        [ClassData(typeof(IncorrectClassData))]
+        public void ThrowsSelfOwnErrorMessageGivenOutOfRangeValue<T>(T input, Func<T, bool> func)
+        {
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.InvalidInput(input, nameof(input), func, "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
+        [Theory]
         [ClassData(typeof(CorrectClassData))]
         public void ReturnsExpectedValueGivenInRangeValue<T>(T input, Func<T, bool> func)
         {
