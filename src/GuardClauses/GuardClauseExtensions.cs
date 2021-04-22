@@ -647,7 +647,6 @@ namespace Ardalis.GuardClauses
                     throw new InvalidEnumArgumentException(parameterName, Convert.ToInt32(input), typeof(T));
                 }
                 throw new InvalidEnumArgumentException(message, new InvalidEnumArgumentException(parameterName, Convert.ToInt32(input), typeof(T)));
-              
             }
 
             return input;
@@ -671,7 +670,6 @@ namespace Ardalis.GuardClauses
                 {
                     throw new InvalidEnumArgumentException(parameterName, Convert.ToInt32(input), typeof(T));
                 }
-
                 throw new InvalidEnumArgumentException(message, new InvalidEnumArgumentException(parameterName, Convert.ToInt32(input), typeof(T)));
             }
 
@@ -695,7 +693,6 @@ namespace Ardalis.GuardClauses
                 {
                     throw new ArgumentException($"Parameter [{parameterName}] is default value for type {typeof(T).Name}", parameterName);
                 }
-
                 throw new ArgumentException(message, parameterName);
             }
 
