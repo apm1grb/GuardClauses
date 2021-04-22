@@ -23,10 +23,26 @@ namespace GuardClauses.UnitTests
         }
 
         [Theory]
+        [ClassData(typeof(IncorrectClassData))]
+        public void ThrowsSelfOwnErrorMessageGivenOutOfRangeValue(IEnumerable<long> input, long rangeFrom, long rangeTo)
+        {
+            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Guard.Against.OutOfRange(input, nameof(input), rangeFrom, rangeTo, "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
+        }
+
+        [Theory]
         [ClassData(typeof(IncorrectRangeClassData))]
         public void ThrowsGivenInvalidArgumentValue(IEnumerable<long> input, long rangeFrom, long rangeTo)
         {
             Assert.Throws<ArgumentException>(() => Guard.Against.OutOfRange(input, nameof(input), rangeFrom, rangeTo));
+        }
+
+        [Theory]
+        [ClassData(typeof(IncorrectRangeClassData))]
+        public void ThrowsSelfOwnErrorMessageGivenInvalidArgumentValue(IEnumerable<long> input, long rangeFrom, long rangeTo)
+        {
+            var exception = Assert.Throws<ArgumentException>(() => Guard.Against.OutOfRange(input, nameof(input), rangeFrom, rangeTo, "selfOwnErrorMessage"));
+            Assert.Contains("selfOwnErrorMessage", exception.Message);
         }
 
         [Theory]
